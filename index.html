@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Question Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 10px 20px;
+			text-align:center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        #question-container {
+            background: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #35424a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #46a29b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dynamic Question Generator</h1>
+		<span><strong>Assignment Exam Week-4</strong></span>
+		<br/>
+    </header>
+    <main>
+        <div id="question-container">
+            <h2>Questions:</h2>
+            <ol id="question-list"></ol>
+        </div>
+		<br/>
+        <button id="load-questions">Load Questions</button>
+    </main>
+    <footer style="text-align:center">
+        <strong>&copy; 2024 Ostad ASP.NET Career Track</strong>
+    </footer>
+    
+    <script>
+        document.getElementById('load-questions').addEventListener('click', loadQuestions);
+
+        function loadQuestions() {
+            // Example API URL
+            const apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // Replace with your actual API
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const questionList = document.getElementById('question-list');
+                    questionList.innerHTML = ''; // Clear existing questions
+                    data.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = item.title + "?"; // Use title as the question
+                        questionList.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+    </script>
+</body>
+</html>
